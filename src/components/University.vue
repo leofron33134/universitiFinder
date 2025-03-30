@@ -25,7 +25,7 @@ onMounted(async () => {
                 "model": "mistral-small-latest",
                 "messages": [{
                     "role": "user",
-                    "content": "напиши описание университета " + universityName
+                    "content": "напиши краткое описание университета" + universityName,
                 }]
             },
             {
@@ -43,6 +43,7 @@ onMounted(async () => {
 
         if (geoResponse.data.features.length > 0) {
             const { lat, lon } = geoResponse.data.features[0].properties;
+            address.value = geoResponse.data.features[0].properties.address_line2;
             center.value = [lat, lon]; // Порядок: [долгота, широта]
         } else {
             address.value = 'Адрес не найден';
@@ -55,22 +56,97 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div>
-        <!-- Карта -->
-        <VMap style="height: 200px;" :center="center" :zoom="zoom">
-            <VMapOsmTileLayer />
-            <VMapZoomControl />
-        </VMap>
-    </div>
+    <div class="container">
+        <div class="content">
+            <h1 class="title">{{ universityName }}</h1>
+            
+            <div class="ss">
+            <div class="map-container">
+                <VMap class="map" :center="center" :zoom="zoom">
+                    <VMapOsmTileLayer />
+                    <VMapZoomControl />
+                </VMap>
+            </div>
 
-    <div>
-        <!-- Информация об университете -->
-        <h1>{{ universityName }}</h1>
-        <h4>{{ universityInfo }}</h4>
-        <p v-if="address">{{ address }}</p>
+            <div class="info">
+                <h4 class="description">{{ universityInfo }}</h4>
+                <p v-if="address" class="address"><p class="address2">Адресс: </p> {{ address }}</p>
+            </div>
+        </div>
+        </div>
     </div>
 </template>
 
 <style>
-/* Ваши стили */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-size: 25px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    font-weight: 1000;
+}
+
+.map-container {
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    height: 500px;
+}
+
+.map {
+    height: 558px;
+    width: 503px;
+}
+
+.info {
+    width: 458px;
+    height: 348px ;
+    margin-top: 20px;
+    text-align: left;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.info h4 {
+   font-size: 15px;
+}
+
+.description {
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.address {
+    margin-top: 10px;
+    color: #EA9A62;
+}
+.address2 {
+    margin-top: 10px;
+    color: #EA9A62;
+    font-weight: bold;
+}
+
+.ss{
+    width: 960px;
+    display: flex;
+    height: 579px;
+    justify-content: center;
+}
 </style>

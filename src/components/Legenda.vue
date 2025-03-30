@@ -9,7 +9,8 @@ import university from './university.vue';
 const router = useRouter()
 const universities = ref([]);
 const GG = ref('')
-function search (){
+function search (e){
+    e.preventDefault();
     axios.get('http://universities.hipolabs.com/search?name=' + GG.value)
   .then(response => {
 
@@ -35,39 +36,101 @@ function search (){
 
 <template>
     
-    <input v-model="GG" type="text" name="" id="">
-    <button @click="search">поиск</button>
-    <div class="items">
-        <div class="item" v-for="university in universities" @click="universities_info(university)">
-            <p  class="Name">Name: {{ university.name }}</p>
-            <p class="Web" style="font-weight: bold;" >Web Site: <a :href="university.web_pages[0]"  style="font-weight: normal;">{{ university.web_pages[0] }}</a></p>
-            <p style="font-weight: bold;">Country: <p :class="get_alpha_two_code(university.alpha_two_code)"></p></p>
+    <div class="container">
+        <form action="">
+            <input v-model="GG" type="text" name="" id="">
+            <button @click="search($event)">найти</button>
+        </form>
+        <div class="items">
+            <div class="item" v-for="university in universities" @click="universities_info(university)">
+                <div>
+                <p  class="Name">Name: {{ university.name }}</p>
+                
+                <p style="font-weight: bold;">Country: <p :class="get_alpha_two_code(university.alpha_two_code)"></p></p>
+                </div>
+                <div class="strelka">
+                <p>></p>
+                </div>
+            </div>
         </div>
     </div>
+    
 </template>
 <style>
-    .items{
-        background-color: white;
-        padding-top: 50px;
-    }
-    .item{
-        background-color: red;
-        margin: 40px;
-        padding: 25px;
-        border-radius: 15px;
-    }
-    .items p {
-        color: white;
-        padding: 14x;
-    }
+body, html {
+    height: 100%;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+form{
+    justify-content: center;
+    padding: 10px;
+    border-radius: 5px;
+    gap: 10px;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+}
+input{
+    border: 1px;
+    background-color: #EA9A62 ;
+    border-radius: 5px;
+    padding: 5px;
+    opacity: 20%;
+    color: white;
+}
+button{
+    border: 1px;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #EA9A62;
+    color: white;
+}
+.items{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.item{
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px;
+    display: flex;
+    padding: 10px;
+    border-radius: 5px;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
 
-    .Name{
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .Web{
-        font-size: 13px;
-        color: white;
-    }
+}
+ 
+form input{
+    border-top-right-radius: 0%;
+    border-bottom-right-radius: 0%;
+    margin-left: 40px;
+}
+
+form button{
+    border-top-left-radius: 0%;
+    border-bottom-left-radius: 0%;
+    margin-right: 40px;
+}
+
+.strelka{
+margin-bottom: 11px;
+}
+
+.strelka p{
+    font-size: 60px;
+}
 
 </style>
