@@ -116,12 +116,13 @@ onMounted(async () => {
 
 .info {
     width: 458px;
-    height: 348px ;
+    height: 500px ;
     margin-top: 20px;
     text-align: left;
     background: #f8f9fa;
     padding: 20px;
     border-radius: 8px;
+    overflow: auto;
 }
 
 .info h4 {
